@@ -9,7 +9,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/acanois/dbapi/internal/auth"
+	"github.com/acanois/dbapi/api/auth"
 	"github.com/lpernett/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -41,7 +41,7 @@ func main() {
 	mux.HandleFunc("POST /login", app.Login)
 	mux.HandleFunc("POST /auth", app.Auth)
 	mux.HandleFunc("POST /callback", app.AuthCallback)
-	mux.HandleFunc("GET /fetch", fetchData)
+	mux.HandleFunc("GET /addUser", addUser)
 
 	fmt.Printf("Server listening on port: %s", port)
 	http.ListenAndServe(port, mux)
@@ -51,7 +51,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Home")
 }
 
-func fetchData(w http.ResponseWriter, r *http.Request) {
+func addUser(w http.ResponseWriter, r *http.Request) {
 	DB_USER := os.Getenv("DB_USER")
 	DB_PW := os.Getenv("DB_PW")
 	DB_NAME := os.Getenv("DB_NAME")
@@ -72,25 +72,4 @@ func fetchData(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// var (
-	// 	id   int
-	// 	name string
-	// )
-	// rows, err := db.Query("select id, name from users where id = ?", 1)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer rows.Close()
-	// for rows.Next() {
-	// 	err := rows.Scan(&id, &name)
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	log.Println(id, name)
-	// }
-	// err = rows.Err()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
 }
