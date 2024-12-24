@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func Connect() {
+func Connect() (*sql.DB, error) {
 	DB_USER := os.Getenv("DB_USER")
 	DB_PW := os.Getenv("DB_PW")
 	DB_NAME := os.Getenv("DB_NAME")
@@ -28,4 +28,6 @@ func Connect() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	return db, err
 }
